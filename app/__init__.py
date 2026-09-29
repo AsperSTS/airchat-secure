@@ -1,0 +1,1 @@
+"""AirChat Secure — Aplicación principal."""
