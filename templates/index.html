@@ -44,10 +44,13 @@
             <span id="metric-cpu" class="text-cyan-400">0%</span>
             <span class="text-slate-600 hidden sm:inline">RAM</span>
             <span id="metric-ram" class="text-cyan-400">0MB</span>
-            <span class="text-blue-400" id="metric-down">↓0</span>
-            <span class="text-orange-400" id="metric-up">↑0</span>
-            <span id="ai-status-dot" class="w-2 h-2 rounded-full bg-red-500 ml-1" title="IA cargando..."></span>
-            <button onclick="toggleDarkMode()" class="ml-1 text-slate-500 hover:text-white transition text-sm">◐</button>
+            <span class="text-blue-400 flex items-center gap-0.5" id="metric-down"><svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg><span>0</span></span>
+            <span class="text-orange-400 flex items-center gap-0.5" id="metric-up"><svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" /></svg><span>0</span></span>
+            <div class="flex items-center gap-1 ml-2 bg-slate-900 px-2 py-0.5 rounded border border-slate-800">
+                <svg class="w-3 h-3 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
+                <span id="ai-model-name" class="text-indigo-300 font-bold text-[9px] tracking-widest truncate max-w-[150px]" title="Modelo activo">CARGANDO...</span>
+                <span id="ai-status-dot" class="w-2 h-2 rounded-full bg-red-500 ml-1 shrink-0" title="IA cargando..."></span>
+            </div>
         </div>
     </div>
 
@@ -75,9 +78,11 @@
         <!-- Sidebar -->
         <div id="sidebar" class="w-full md:w-72 bg-slate-900 border-r border-slate-800 flex flex-col absolute md:relative z-20 h-full transform -translate-x-full md:translate-x-0 transition-transform duration-300 shrink-0">
             <!-- Sidebar header -->
-            <div class="p-3 flex justify-between items-center border-b border-slate-800">
-                <span id="my-name-display" class="font-bold text-sm text-indigo-400 truncate"></span>
-                <button onclick="toggleSidebar()" class="md:hidden text-slate-500 hover:text-white">✕</button>
+            <div class="h-20 p-6 flex justify-between items-center border-b border-slate-800 shrink-0 shadow-sm shadow-black/30">
+                <span id="my-name-display" class="font-black text-lg text-indigo-400 truncate tracking-tight"></span>
+                <button onclick="toggleSidebar()" class="md:hidden text-slate-500 hover:text-white transition">
+                    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
             </div>
             
             <!-- Search + New Group -->
@@ -95,32 +100,59 @@
                 <div class="px-3 pt-3 pb-1 text-[10px] font-bold text-slate-600 uppercase tracking-widest">Contactos</div>
                 <ul id="user-list"></ul>
             </div>
+
+            <!-- Settings Button -->
+            <div class="p-4 border-t border-slate-800 shrink-0">
+                <button onclick="showConfigModal()" class="flex items-center gap-2 text-slate-400 hover:text-white transition w-full p-2 rounded hover:bg-slate-800">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                <span class="font-bold text-sm">Configuración</span>
+                </button>
+            </div>
         </div>
 
         <!-- Chat Area -->
         <div class="flex-1 flex flex-col bg-slate-950 w-full relative">
             <!-- Chat Header -->
-            <div class="h-14 glass flex justify-between items-center px-4 border-b border-slate-800 z-10 shrink-0">
-                <div class="flex items-center gap-3">
-                    <button onclick="toggleSidebar()" class="md:hidden text-slate-400 mr-1">☰</button>
-                    <div id="current-chat-avatar" class="w-9 h-9 rounded-full bg-indigo-600 flex items-center justify-center text-sm text-white font-bold shrink-0">👥</div>
+            <div class="h-20 glass flex justify-between items-center px-6 border-b border-slate-800 z-10 shrink-0 shadow-sm shadow-black/50">
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleSidebar()" class="md:hidden text-slate-400 hover:text-white mr-1" title="Menú">
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                    </button>
+                    <div id="current-chat-avatar" class="w-9 h-9 rounded-full bg-indigo-600 flex items-center justify-center text-sm text-white font-bold shrink-0">
+                        <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                    </div>
                     <div>
                         <h2 id="current-chat-title" class="text-sm font-bold leading-tight">Chat grupal</h2>
-                        <div id="current-chat-status" class="text-[11px] text-emerald-400 hidden typing-dots"><span>●</span><span>●</span><span>●</span> escribiendo</div>
+                        <div id="current-chat-status" class="text-[11px] text-emerald-400 hidden flex items-center gap-1">
+                            <svg class="w-3 h-3 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg> 
+                            escribiendo...
+                        </div>
                     </div>
                 </div>
-                <div class="flex gap-2 items-center">
+                <div class="flex gap-1.5 items-center">
                     <!-- AI buttons (hidden by default) -->
-                    <button id="ai-config-btn" onclick="showAIModal()" class="hidden bg-indigo-600/20 text-indigo-400 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-indigo-600/40 transition">🤖 Persona</button>
-                    <button id="ai-hw-btn" onclick="showHardwareModal()" class="hidden bg-emerald-600/20 text-emerald-400 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-emerald-600/40 transition">⚙️ Hardware</button>
-                    <button id="ai-memory-btn" onclick="clearAIMemory()" class="hidden bg-red-600/20 text-red-400 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-red-600/40 transition" title="Borrar memoria conversacional">🧹 Reset</button>
+                    <button id="ai-config-btn" onclick="showAIModal()" class="hidden text-indigo-400 hover:text-indigo-300 p-2 rounded-lg hover:bg-indigo-500/20 transition" title="Configurar Persona">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+                    </button>
+                    <button id="ai-hw-btn" onclick="showHardwareModal()" class="hidden text-emerald-400 hover:text-emerald-300 p-2 rounded-lg hover:bg-emerald-500/20 transition" title="Modelos de IA">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
+                    </button>
+                    <button id="ai-memory-btn" onclick="clearAIMemory()" class="hidden text-red-400 hover:text-red-300 p-2 rounded-lg hover:bg-red-500/20 transition" title="Borrar memoria conversacional">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                    </button>
+                    
+                    <div id="header-divider" class="w-px h-6 bg-slate-800 mx-1"></div>
+
                     <!-- Ephemeral toggle -->
-                    <label id="eph-label" class="flex items-center text-[10px] text-red-400 font-bold gap-1 cursor-pointer">
+                    <label id="eph-label" class="flex items-center text-[10px] text-red-400 font-bold gap-1 cursor-pointer bg-red-500/10 px-2.5 py-1.5 rounded-lg border border-red-500/20 hover:bg-red-500/20 transition">
                         <input type="checkbox" id="ephemeral-toggle" class="accent-red-500 w-3 h-3">
-                        <span class="hidden sm:inline">Efímero</span>
+                        <span class="hidden sm:inline tracking-wider">EFÍMERO</span>
                     </label>
+                    
                     <!-- Call button -->
-                    <button id="call-btn" onclick="startCall()" class="hidden bg-emerald-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-emerald-700 transition">📞</button>
+                    <button id="call-btn" onclick="startCall()" class="hidden text-emerald-400 hover:text-emerald-300 p-2 rounded-lg hover:bg-emerald-500/20 transition border border-emerald-500/30 ml-1" title="Llamada P2P">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+                    </button>
                 </div>
             </div>
             
@@ -129,7 +161,9 @@
 
             <!-- AI Command Hints (shown when chatting with AI) -->
             <div id="ai-hints" class="hidden bg-slate-900/90 border-t border-slate-800 px-3 py-1.5 text-[10px] text-slate-500 flex gap-2 shrink-0 overflow-x-auto">
-                <span class="text-indigo-400 font-bold shrink-0">⚡</span>
+                <span class="text-indigo-400 font-bold shrink-0">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                </span>
                 <span class="shrink-0 cursor-pointer hover:text-white px-1.5 py-0.5 rounded bg-slate-800/50 hover:bg-indigo-600/30 transition" onclick="insertCmd('/rag ')">/rag</span>
                 <span class="shrink-0 cursor-pointer hover:text-white px-1.5 py-0.5 rounded bg-slate-800/50 hover:bg-indigo-600/30 transition" onclick="insertCmd('/rolear ')">/rolear</span>
                 <span class="shrink-0 cursor-pointer hover:text-white px-1.5 py-0.5 rounded bg-slate-800/50 hover:bg-indigo-600/30 transition" onclick="insertCmd('/historia ')">/historia</span>
@@ -145,14 +179,23 @@
             </div>
 
             <!-- Input Bar -->
-            <div class="bg-slate-900/90 border-t border-slate-800 p-2 md:p-3 shrink-0">
+            <div class="bg-slate-900/90 border-t border-slate-800 p-2 md:p-3 shrink-0 flex flex-col">
+                <div id="reply-banner" class="hidden mx-2 mb-2 bg-slate-800 border-l-2 border-indigo-500 px-3 py-1.5 text-xs flex justify-between items-center text-slate-300 rounded-r shadow-sm">
+                    <div class="truncate">Respondiendo a <span class="font-bold text-indigo-400" id="reply-user"></span>: <span id="reply-text" class="italic opacity-80"></span></div>
+                    <button onclick="cancelReply()" class="text-slate-400 hover:text-white shrink-0 ml-2">&times;</button>
+                </div>
                 <div class="flex items-center gap-2 w-full px-2">
-                    <label class="cursor-pointer text-slate-500 hover:text-indigo-400 p-2 rounded-full transition shrink-0">
-                        📎 <input type="file" id="file-input" class="hidden" onchange="sendFile(this)" accept="image/*,.pdf,.zip,.txt,.py,.js">
+                    <label class="cursor-pointer text-slate-500 hover:text-indigo-400 p-2 rounded-full transition shrink-0" title="Adjuntar archivo">
+                        <svg class="w-5 h-5 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" /></svg>
+                        <input type="file" id="file-input" class="hidden" onchange="sendFile(this)" accept="image/*,.pdf,.zip,.txt,.py,.js">
                     </label>
-                    <button id="mic-btn" onclick="toggleVoiceRecord()" class="text-slate-500 hover:text-red-400 p-2 rounded-full transition shrink-0">🎤</button>
+                    <button id="mic-btn" onclick="toggleVoiceRecord()" class="text-slate-500 hover:text-red-400 p-2 rounded-full transition shrink-0" title="Grabar voz">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
+                    </button>
                     <input type="text" id="message-input" placeholder="Type a message..." class="flex-1 bg-slate-800 text-white p-3 rounded-xl focus:outline-none input-glow text-sm" oninput="handleTyping()" onkeypress="if(event.key==='Enter')sendMessage()">
-                    <button onclick="sendMessage()" class="bg-indigo-600 text-white p-3 rounded-xl hover:bg-indigo-700 transition text-sm font-bold shrink-0">➤</button>
+                    <button onclick="sendMessage()" class="bg-indigo-600 text-white p-3 rounded-xl hover:bg-indigo-700 transition shrink-0" title="Enviar mensaje">
+                        <svg class="w-5 h-5 rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
+                    </button>
                 </div>
             </div>
         </div>
@@ -179,14 +222,28 @@
             
             <!-- Quick Presets -->
             <div class="flex flex-wrap gap-1 mb-3">
-                <button onclick="setPreset('pirata')" class="text-[10px] bg-slate-800 px-2 py-1 rounded hover:bg-indigo-600 transition">🏴‍☠️ Pirata</button>
-                <button onclick="setPreset('anime')" class="text-[10px] bg-slate-800 px-2 py-1 rounded hover:bg-indigo-600 transition">🎌 Waifu</button>
-                <button onclick="setPreset('detective')" class="text-[10px] bg-slate-800 px-2 py-1 rounded hover:bg-indigo-600 transition">🔍 Detective</button>
-                <button onclick="setPreset('villano')" class="text-[10px] bg-slate-800 px-2 py-1 rounded hover:bg-indigo-600 transition">🦹 Villano</button>
-                <button onclick="setPreset('poeta')" class="text-[10px] bg-slate-800 px-2 py-1 rounded hover:bg-indigo-600 transition">📜 Poeta</button>
-                <button onclick="setPreset('hacker')" class="text-[10px] bg-slate-800 px-2 py-1 rounded hover:bg-indigo-600 transition">💻 Hacker</button>
-                <button onclick="setPreset('nsfw')" class="text-[10px] bg-red-900/50 px-2 py-1 rounded hover:bg-red-600 transition">🔥 Sin límites</button>
-                <button onclick="setPreset('default')" class="text-[10px] bg-slate-800 px-2 py-1 rounded hover:bg-indigo-600 transition">↩ Default</button>
+                <button onclick="setPreset('pirata')" class="text-[10px] bg-slate-800 px-2 py-1 rounded hover:bg-indigo-600 transition">Pirata</button>
+                <button onclick="setPreset('anime')" class="text-[10px] bg-slate-800 px-2 py-1 rounded hover:bg-indigo-600 transition flex items-center gap-1">
+                    <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" /></svg> Waifu
+                </button>
+                <button onclick="setPreset('detective')" class="text-[10px] bg-slate-800 px-2 py-1 rounded hover:bg-indigo-600 transition flex items-center gap-1">
+                    <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg> Detective
+                </button>
+                <button onclick="setPreset('villano')" class="text-[10px] bg-slate-800 px-2 py-1 rounded hover:bg-indigo-600 transition flex items-center gap-1">
+                    <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg> Villano
+                </button>
+                <button onclick="setPreset('poeta')" class="text-[10px] bg-slate-800 px-2 py-1 rounded hover:bg-indigo-600 transition flex items-center gap-1">
+                    <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg> Poeta
+                </button>
+                <button onclick="setPreset('hacker')" class="text-[10px] bg-slate-800 px-2 py-1 rounded hover:bg-indigo-600 transition flex items-center gap-1">
+                    <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg> Hacker
+                </button>
+                <button onclick="setPreset('nsfw')" class="text-[10px] bg-red-900/50 text-red-300 px-2 py-1 rounded hover:bg-red-600 hover:text-white transition flex items-center gap-1">
+                    <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" /></svg> Sin límites
+                </button>
+                <button onclick="setPreset('default')" class="text-[10px] bg-slate-800 px-2 py-1 rounded hover:bg-indigo-600 transition flex items-center gap-1">
+                    <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" /></svg> Default
+                </button>
             </div>
 
             <textarea id="ai-prompt-input" rows="4" placeholder="Ej: Eres una elfa oscura llamada Sylvanas. Hablas con misterio..." class="w-full p-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none focus:border-indigo-500 text-white text-sm resize-none mb-3"></textarea>
@@ -205,7 +262,10 @@
     <div id="hardware-modal" class="hidden absolute inset-0 bg-slate-950/95 z-50 flex items-center justify-center backdrop-blur-md">
         <div class="bg-slate-900 border border-slate-700 p-6 rounded-2xl w-full max-w-2xl mx-4 shadow-2xl flex flex-col max-h-[90vh]">
             <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-2">
-                <h3 class="text-xl font-black text-indigo-400">🖥️ Hardware & Modelos IA</h3>
+                <div class="flex items-center gap-2">
+                    <svg class="w-6 h-6 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
+                    <h3 class="text-xl font-black text-indigo-400">Hardware & Modelos IA</h3>
+                </div>
                 <button onclick="document.getElementById('hardware-modal').classList.add('hidden')" class="text-slate-500 hover:text-white text-xl">&times;</button>
             </div>
             
@@ -213,7 +273,10 @@
             
             <div id="hw-content" class="hidden overflow-y-auto pr-2">
                 <div class="bg-slate-800 p-4 rounded-xl mb-4 border border-slate-700">
-                    <h4 class="text-sm font-bold text-slate-300 mb-2">💻 Sistema Anfitrión:</h4>
+                    <div class="flex items-center gap-2 mb-2">
+                        <svg class="w-5 h-5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                        <h4 class="text-sm font-bold text-slate-300">Sistema Anfitrión:</h4>
+                    </div>
                     <div class="grid grid-cols-2 gap-2 text-sm">
                         <div><span class="text-slate-500">Sistema:</span> <span id="hw-os" class="font-mono text-emerald-400"></span></div>
                         <div><span class="text-slate-500">Arquitectura:</span> <span id="hw-arch" class="font-mono text-emerald-400"></span></div>
@@ -222,7 +285,10 @@
                     </div>
                 </div>
                 
-                <h4 class="text-sm font-bold text-slate-300 mb-3">🧠 Modelos Recomendados (Autodetectados):</h4>
+                <div class="flex items-center gap-2 mb-3">
+                    <svg class="w-5 h-5 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                    <h4 class="text-sm font-bold text-slate-300">Modelos Recomendados (Autodetectados):</h4>
+                </div>
                 <div id="models-list" class="space-y-3"></div>
             </div>
         </div>
@@ -232,7 +298,9 @@
     <div id="call-modal" class="hidden absolute inset-0 bg-slate-950/95 z-50 flex flex-col items-center justify-center text-white backdrop-blur-lg">
         <h2 id="call-status-text" class="text-2xl font-light mb-4">Videollamada</h2>
         <div class="flex gap-3 mb-4">
-            <button onclick="shareScreen()" class="bg-indigo-600 px-4 py-2 rounded-lg text-xs hover:bg-indigo-700 transition font-bold">📺 Pantalla</button>
+            <button onclick="shareScreen()" class="bg-indigo-600 px-4 py-2 rounded-lg text-xs hover:bg-indigo-700 transition font-bold flex items-center gap-1">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg> Pantalla
+            </button>
         </div>
         <div class="relative flex justify-center items-center w-full max-w-3xl h-[55vh] bg-black rounded-2xl overflow-hidden shadow-2xl ring-1 ring-slate-800">
             <video id="remote-video" autoplay playsinline class="w-full h-full object-cover"></video>
@@ -241,8 +309,62 @@
             </div>
         </div>
         <div class="mt-6 flex gap-4 items-center">
-            <button id="answer-btn" onclick="acceptCall()" class="hidden bg-emerald-500 hover:bg-emerald-600 p-4 rounded-full shadow-lg text-xl">📞</button>
-            <button onclick="endCall()" class="bg-red-500 hover:bg-red-600 p-4 rounded-full shadow-lg text-xl">✕</button>
+            <button id="answer-btn" onclick="acceptCall()" class="hidden bg-emerald-500 hover:bg-emerald-600 p-4 rounded-full shadow-lg text-white">
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+            </button>
+            <button onclick="endCall()" class="bg-red-500 hover:bg-red-600 p-4 rounded-full shadow-lg text-white">
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+    </div>
+
+    <!-- Modal: Configuración -->
+    <div id="config-modal" class="hidden absolute inset-0 bg-slate-950/95 z-50 flex items-center justify-center backdrop-blur-md">
+        <div class="bg-slate-900 border border-slate-700 p-6 rounded-2xl w-full max-w-2xl mx-4 shadow-2xl flex flex-col max-h-[90vh]">
+            <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-2">
+                <div class="flex items-center gap-2">
+                    <svg class="w-6 h-6 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    <h3 class="text-xl font-black text-indigo-400">Configuración</h3>
+                </div>
+                <button onclick="closeConfigModal()" class="text-slate-500 hover:text-white transition">
+                    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            
+            <!-- Tabs -->
+            <div class="flex gap-4 border-b border-slate-800 mb-4 text-sm font-bold">
+                <button onclick="switchConfigTab('roles')" id="tab-btn-roles" class="pb-2 text-indigo-400 border-b-2 border-indigo-400 transition">Roles</button>
+                <button onclick="switchConfigTab('inferencia')" id="tab-btn-inferencia" class="pb-2 text-slate-500 hover:text-slate-300 transition">Inferencia</button>
+                <button onclick="switchConfigTab('modelos')" id="tab-btn-modelos" class="pb-2 text-slate-500 hover:text-slate-300 transition">Modelos (Disco)</button>
+            </div>
+
+            <!-- Tab Content: Roles -->
+            <div id="tab-roles" class="overflow-y-auto pr-2">
+                <label class="block text-sm font-bold text-slate-300 mb-1">Nombre del Bot</label>
+                <input type="text" id="config-bot-name" value="Agente IA" class="w-full p-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none focus:border-indigo-500 text-white text-sm mb-4">
+                
+                <label class="block text-sm font-bold text-slate-300 mb-1">System Prompt</label>
+                <textarea id="config-system-prompt" rows="5" class="w-full p-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none focus:border-indigo-500 text-white text-sm resize-none mb-4"></textarea>
+                
+                <button onclick="saveAISettings()" class="w-full py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-bold">Guardar Configuración</button>
+            </div>
+
+            <!-- Tab Content: Inferencia -->
+            <div id="tab-inferencia" class="hidden overflow-y-auto pr-2">
+                <label class="block text-sm font-bold text-slate-300 mb-1">Temperatura: <span id="config-temp-val" class="text-indigo-400">0.85</span></label>
+                <input type="range" id="config-temp" min="0.1" max="2.0" step="0.05" value="0.85" oninput="document.getElementById('config-temp-val').innerText=this.value" class="w-full accent-indigo-500 mb-4">
+
+                <label class="block text-sm font-bold text-slate-300 mb-1">Max Tokens: <span id="config-tokens-val" class="text-indigo-400">300</span></label>
+                <input type="range" id="config-tokens" min="50" max="2000" step="50" value="300" oninput="document.getElementById('config-tokens-val').innerText=this.value" class="w-full accent-indigo-500 mb-4">
+                
+                <button onclick="saveAISettings()" class="w-full py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-bold">Guardar Inferencia</button>
+            </div>
+
+            <!-- Tab Content: Modelos -->
+            <div id="tab-modelos" class="hidden overflow-y-auto pr-2">
+                <p class="text-xs text-slate-500 mb-3">Modelos almacenados localmente en caché.</p>
+                <div id="cached-models-list" class="space-y-3">
+                    <div class="text-center text-slate-500 py-4">Cargando...</div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -258,18 +380,51 @@
             }
         });
 
-        function toggleDarkMode() {
-            document.documentElement.classList.toggle('dark');
-            document.body.classList.toggle('bg-slate-950');
-            document.body.classList.toggle('bg-gray-100');
-        }
+
 
         let wsChat, wsMetrics, cryptoKey;
         let username = "", currentChat = "Chat grupal";
-        let activeUsers = [], activeGroups = {};
+        let activeUsers = [], offlineUsers = [], activeGroups = {};
         let chatHistories = {};
+        let chatSessions = [];
+        let currentSessionId = null;
         let typingTimeout;
+        let replyingTo = null;
         
+        function setReplyTo(id, user, textOrType) {
+            replyingTo = { id, user, snippet: textOrType };
+            document.getElementById('reply-banner').classList.remove('hidden');
+            document.getElementById('reply-user').innerText = user;
+            document.getElementById('reply-text').innerText = textOrType.substring(0, 50) + (textOrType.length > 50 ? '...' : '');
+            document.getElementById('message-input').focus();
+        }
+
+        function cancelReply() {
+            replyingTo = null;
+            document.getElementById('reply-banner').classList.add('hidden');
+        }
+
+        function toggleReactionMenu(id) {
+            const el = document.getElementById('react-menu-' + id);
+            if(el) el.classList.toggle('hidden');
+        }
+
+        function reactToMessage(id, reactionType) {
+            document.querySelectorAll('[id^="react-menu-"]').forEach(el => el.classList.add('hidden'));
+            
+            // Check if removing
+            let finalReact = reactionType;
+            for (let key in chatHistories) {
+                const msg = chatHistories[key].find(m => m.id === id);
+                if (msg && msg.reactions && msg.reactions[username] === reactionType) {
+                    finalReact = null;
+                    break;
+                }
+            }
+
+            wsChat.send(JSON.stringify({ type: "react_message", id: id, reaction: finalReact, to_target: currentChat, session_id: currentSessionId }));
+        }
+
         // ===================== E2EE Crypto =====================
         async function deriveKey(pwd) {
             const enc = new TextEncoder();
@@ -297,7 +452,7 @@
                 const iv = combined.slice(0, 12); const data = combined.slice(12);
                 const decrypted = await crypto.subtle.decrypt({name: "AES-GCM", iv}, key, data);
                 return new TextDecoder().decode(decrypted);
-            } catch(e) { return "🔒 (E2EE)"; }
+            } catch(e) { return '<span><svg class="w-3 h-3 inline text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg> (E2EE)</span>'; }
         }
 
         function escapeHTML(str) {
@@ -309,14 +464,26 @@
         function renderMarkdown(text) {
             if(!text) return "";
             let html = escapeHTML(text);
-            // Bold
-            html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-            // Italic
-            html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+            
+            // Format specific roleplay outputs
+            
+            // Quotes "..." -> Bright white/solid
+            html = html.replace(/"([^"]+)"/g, '<span class="text-white font-bold leading-relaxed">"$1"</span>');
+            
+            // Bold **...**
+            html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+            
+            // Actions/Thoughts *...* -> Opaque gray
+            html = html.replace(/\*([^*]+)\*/g, '<em class="text-slate-400 italic">*$1*</em>');
+            
+            // Name Prefix (e.g. "Captain Red:" or "Z3R0 (escribió):")
+            html = html.replace(/^([A-Za-z0-9 _-]+)(\s*\([^)]+\))?:\s*/gm, '<span class="text-emerald-400 font-black tracking-wide uppercase text-xs block mb-1">$1$2:</span>');
+            
             // Code blocks
-            html = html.replace(/```(\w*)\n?([\s\S]*?)```/g, '<pre><code>$2</code></pre>');
+            html = html.replace(/```(\w*)\n?([\s\S]*?)```/g, '<pre class="bg-slate-900 p-2 rounded-lg my-2 border border-slate-700 text-sm overflow-x-auto text-indigo-300"><code>$2</code></pre>');
             // Inline code
-            html = html.replace(/`(.+?)`/g, '<code class="bg-slate-700 px-1 rounded text-indigo-300">$1</code>');
+            html = html.replace(/`([^`]+)`/g, '<code class="bg-slate-800 border border-slate-700 px-1.5 py-0.5 rounded text-indigo-300 text-xs">$1</code>');
+            
             // Newlines
             html = html.replace(/\n/g, '<br>');
             return html;
@@ -354,12 +521,24 @@
                 document.getElementById("metric-uptime").innerText = d.uptime;
                 document.getElementById("metric-cpu").innerText = d.app_cpu;
                 document.getElementById("metric-ram").innerText = d.app_ram;
-                document.getElementById("metric-up").innerText = "↑" + d.upload;
-                document.getElementById("metric-down").innerText = "↓" + d.download;
+                document.getElementById("metric-up").innerHTML = `<svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" /></svg><span>${d.upload}</span>`;
+                document.getElementById("metric-down").innerHTML = `<svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg><span>${d.download}</span>`;
                 // AI status indicator
                 const dot = document.getElementById("ai-status-dot");
-                if(d.ai_ready) { dot.classList.remove("bg-red-500"); dot.classList.add("bg-emerald-500"); dot.title = "IA lista"; }
-                else { dot.classList.remove("bg-emerald-500"); dot.classList.add("bg-red-500"); dot.title = "IA cargando..."; }
+                const modelName = document.getElementById("ai-model-name");
+                
+                if (d.ai_ready) {
+                    dot.className = "w-2 h-2 rounded-full bg-emerald-500 ml-1 shrink-0 shadow-[0_0_8px_rgba(16,185,129,0.8)]";
+                    dot.title = "IA lista";
+                } else {
+                    dot.className = "w-2 h-2 rounded-full bg-red-500 ml-1 shrink-0 animate-pulse shadow-[0_0_8px_rgba(239,68,68,0.8)]";
+                    dot.title = "IA cargando...";
+                }
+                
+                if (d.ai_model) {
+                    const parts = d.ai_model.split("/");
+                    modelName.innerText = parts[parts.length - 1];
+                }
             };
 
             // Chat WebSocket
@@ -368,26 +547,223 @@
                 const data = JSON.parse(e.data);
                 
                 if (data.type === "state_update") updateState(data.users, data.groups);
+                else if (data.type === "chat_sessions") {
+                    chatSessions = data.sessions || [];
+                    renderList();
+                }
+                else if (data.type === "session_created") {
+                    currentSessionId = data.session_id;
+                    wsChat.send(JSON.stringify({type: "load_session", session_id: currentSessionId}));
+                }
+                else if (data.type === "session_history") {
+                    chatHistories[data.session_id] = data.messages || [];
+                    if (currentSessionId === data.session_id) renderChatHistory();
+                }
+                else if (data.type === "offline_contacts") {
+                    offlineUsers = data.contacts || [];
+                    renderList();
+                }
                 else if (data.type === "chat" || data.type === "file" || data.type === "voice") {
                     if (data.from_user !== "Agente IA") {
                         data.message = await decryptMessage(data.message, cryptoKey);
                     }
                     saveAndRenderMessage(data);
                     
-                    if (data.ephemeral) setTimeout(() => deleteMsgLocal(getChatKey(data), data.id), 10000);
+                    if (data.ephemeral) setTimeout(() => deleteMsgLocal(data.session_id || getChatKey(data), data.id), 10000);
                     
                     if (data.from_user !== username && document.hidden && !data.is_history) {
                         if(Notification.permission === "granted") new Notification("AirChat — " + data.from_user, { body: data.message?.substring(0, 50) || "Nuevo mensaje" });
                     }
                 } 
-                else if (data.type === "delete_message") deleteMsgLocal(data.to_target, data.id);
+                else if (data.type === "delete_message") {
+                    const chatKey = data.session_id || (data.to_target === username ? data.from_user : data.to_target);
+                    deleteMsgLocal(chatKey, data.id);
+                }
+                else if (data.type === "edit_message") {
+                    const chatKey = data.session_id || (data.to_target === username ? data.from_user : data.to_target);
+                    editMsgLocal(chatKey, data.id, data.new_text);
+                }
+                else if (data.type === "reaction_updated") {
+                    for (let key in chatHistories) {
+                        const msg = chatHistories[key].find(m => m.id === data.id);
+                        if (msg) {
+                            msg.reactions = data.reactions;
+                            if (currentChat === key || currentSessionId === key) {
+                                renderChatHistory();
+                            }
+                            break;
+                        }
+                    }
+                }
+                else if (data.type === "ai_stream_chunk") {
+                    for (let key in chatHistories) {
+                        const msg = chatHistories[key].find(m => m.id === data.id);
+                        if (msg) {
+                            msg.message = (msg.message || "") + data.chunk;
+                            const msgEl = document.getElementById(`msg-${data.id}`);
+                            if (msgEl) {
+                                const contentEl = msgEl.querySelector('.markdown-content');
+                                if (contentEl) {
+                                    contentEl.innerHTML = renderMarkdown(msg.message);
+                                    const container = document.getElementById("messages-container");
+                                    if (container.scrollHeight - container.scrollTop - container.clientHeight < 100) {
+                                        container.scrollTop = container.scrollHeight;
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
                 else if (data.type === "typing" && data.from_user === currentChat) document.getElementById("current-chat-status").classList.remove("hidden");
                 else if (data.type === "stop_typing" && data.from_user === currentChat) document.getElementById("current-chat-status").classList.add("hidden");
                 else if (data.type === "call_offer") handleCallOffer(data);
                 else if (data.type === "call_answer") handleCallAnswer(data);
                 else if (data.type === "ice_candidate") handleIceCandidate(data);
                 else if (data.type === "end_call") closeCallUI();
+                else if (data.type === "p2p_file_offer") handleP2POffer(data);
+                else if (data.type === "p2p_file_answer") handleP2PAnswer(data);
+                else if (data.type === "p2p_file_ice") handleP2PIce(data);
+                else if (data.type === "cached_models") {
+                    const list = document.getElementById("cached-models-list");
+                    if (!data.models || data.models.length === 0) {
+                        list.innerHTML = '<div class="text-center text-slate-500 py-4">No hay modelos descargados.</div>';
+                    } else {
+                        list.innerHTML = data.models.map(m => `
+                            <div class="flex justify-between items-center bg-slate-800 p-3 rounded-lg border border-slate-700">
+                                <div>
+                                    <div class="text-sm font-bold text-indigo-300">${escapeHTML(m.name)}</div>
+                                    <div class="text-xs text-slate-500">Tamaño: ${escapeHTML(m.size)}</div>
+                                </div>
+                                <button onclick="deleteCachedModel('${m.name}')" class="text-red-400 hover:text-red-300 p-2 rounded-lg hover:bg-red-500/20 transition" title="Eliminar modelo">
+                                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                </button>
+                            </div>
+                        `).join('');
+                    }
+                }
+                else if (data.type === "system_message") {
+                    alert(data.message);
+                }
             };
+        }
+
+        // ===================== Config Modal =====================
+        function showConfigModal() {
+            document.getElementById('config-modal').classList.remove('hidden');
+            switchConfigTab('roles');
+        }
+        function closeConfigModal() {
+            document.getElementById('config-modal').classList.add('hidden');
+        }
+        function switchConfigTab(tab) {
+            document.getElementById('tab-roles').classList.add('hidden');
+            document.getElementById('tab-inferencia').classList.add('hidden');
+            document.getElementById('tab-modelos').classList.add('hidden');
+            
+            document.getElementById('tab-btn-roles').className = 'pb-2 text-slate-500 hover:text-slate-300 transition';
+            document.getElementById('tab-btn-inferencia').className = 'pb-2 text-slate-500 hover:text-slate-300 transition';
+            document.getElementById('tab-btn-modelos').className = 'pb-2 text-slate-500 hover:text-slate-300 transition';
+            
+            document.getElementById('tab-' + tab).classList.remove('hidden');
+            document.getElementById('tab-btn-' + tab).className = 'pb-2 text-indigo-400 border-b-2 border-indigo-400 transition';
+            
+            if (tab === 'modelos') {
+                document.getElementById('cached-models-list').innerHTML = '<div class="text-center text-slate-500 py-4">Cargando modelos...</div>';
+                if (wsChat && wsChat.readyState === WebSocket.OPEN) {
+                    wsChat.send(JSON.stringify({ type: "get_cached_models" }));
+                }
+            }
+        }
+        function saveAISettings() {
+            const config = {
+                bot_name: document.getElementById('config-bot-name').value.trim() || 'Agente IA',
+                system_prompt: document.getElementById('config-system-prompt').value,
+                temperature: parseFloat(document.getElementById('config-temp').value),
+                max_tokens: parseInt(document.getElementById('config-tokens').value)
+            };
+            wsChat.send(JSON.stringify({ type: "update_ai_settings", config: config }));
+            closeConfigModal();
+        }
+        function deleteCachedModel(name) {
+            if (confirm("¿Estás seguro de eliminar el modelo " + name + "?")) {
+                wsChat.send(JSON.stringify({ type: "delete_cached_model", model_name: name }));
+                setTimeout(() => wsChat.send(JSON.stringify({ type: "get_cached_models" })), 500);
+            }
+        }
+
+        // ===================== Sessions Management =====================
+        function createSession(target) {
+            const title = prompt("Título del nuevo chat:");
+            if(title) {
+                wsChat.send(JSON.stringify({type: "create_session", target: target, title: title}));
+            }
+        }
+
+        function deleteSession(sessionId) {
+            if(!confirm("¿Seguro que deseas eliminar esta sesión?")) return;
+            wsChat.send(JSON.stringify({type: "delete_session", session_id: sessionId}));
+            if(currentSessionId === sessionId) {
+                currentSessionId = null;
+                renderChatHistory();
+            }
+        }
+
+        function renameSession(sessionId) {
+            const title = prompt("Nuevo título:");
+            if(title) wsChat.send(JSON.stringify({type: "rename_session", session_id: sessionId, title: title}));
+        }
+
+        function createSessionElement(session, isAI) {
+            const isActive = currentSessionId === session.id;
+            const avatar = isAI ? 
+                '<svg class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" /></svg>' :
+                '<svg class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>';
+            const color = isAI ? 'bg-indigo-600' : 'bg-emerald-600';
+            
+            return `<li id="session-${session.id}" class="sidebar-item pl-10 pr-3 py-1.5 cursor-pointer flex items-center justify-between transition ${isActive ? 'active bg-slate-800' : 'hover:bg-slate-800/50'} border-b border-slate-800/20">
+                    <div class="flex items-center gap-2 flex-1 min-w-0" onclick="selectSession('${session.id}', '${session.target}')">
+                        <div class="relative w-5 h-5 shrink-0 rounded-full ${color} flex items-center justify-center text-white">
+                            ${avatar}
+                        </div>
+                        <span class="font-medium text-xs truncate block text-slate-400">${escapeHTML(session.title || "Chat")}</span>
+                    </div>
+                    <div class="flex gap-1">
+                        <button onclick="renameSession('${session.id}'); event.stopPropagation();" class="text-slate-500 hover:text-indigo-400" title="Renombrar">
+                            <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                        </button>
+                        <button onclick="deleteSession('${session.id}'); event.stopPropagation();" class="text-slate-500 hover:text-red-400" title="Eliminar">
+                            <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                        </button>
+                    </div>
+                    </li>`;
+        }
+
+        function selectSession(id, target) {
+            currentSessionId = id;
+            currentChat = target;
+            
+            document.getElementById("current-chat-title").innerText = target + " (Sesión)";
+            document.getElementById("current-chat-status").classList.add("hidden");
+            
+            const isAI = target === "Agente IA";
+            document.getElementById("ai-config-btn").classList.toggle('hidden', !isAI);
+            document.getElementById("ai-hw-btn").classList.toggle('hidden', !isAI);
+            document.getElementById("ai-memory-btn").classList.toggle('hidden', !isAI);
+            document.getElementById("header-divider").classList.toggle('hidden', !isAI);
+            document.getElementById("ai-hints").classList.toggle('hidden', !isAI);
+            document.getElementById("call-btn").classList.toggle('hidden', target === 'Chat grupal' || isAI);
+            
+            const av = document.getElementById("current-chat-avatar");
+            const aiSVG = '<svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>';
+            
+            if(isAI) { av.innerHTML = aiSVG; av.className = 'w-9 h-9 rounded-full bg-indigo-600 flex items-center justify-center shrink-0'; }
+            else { av.textContent = target.charAt(0).toUpperCase(); av.className = 'w-9 h-9 rounded-full bg-emerald-600 flex items-center justify-center text-sm text-white font-bold shrink-0'; }
+
+            wsChat.send(JSON.stringify({type: "load_session", session_id: id}));
+            
+            if(window.innerWidth < 768) toggleSidebar();
+            renderList();
         }
 
         // ===================== State & List =====================
@@ -408,48 +784,88 @@
             
             // AI contact always on top
             if ("agente ia".includes(q)) {
-                ulAI.innerHTML = createListElement("Agente IA", false, true);
+                ulAI.innerHTML = createListElement("Agente IA", false, true, true);
+                chatSessions.filter(s => s.target === "Agente IA").forEach(s => {
+                    ulAI.innerHTML += createSessionElement(s, true);
+                });
             }
 
             Object.keys(activeGroups).forEach(g => {
-                if(g.toLowerCase().includes(q)) ulGroup.innerHTML += createListElement(g, true, false);
+                if(g.toLowerCase().includes(q)) ulGroup.innerHTML += createListElement(g, true, false, true);
             });
-            activeUsers.forEach(u => { 
-                if (u !== username && u !== "Agente IA" && u.toLowerCase().includes(q)) ulUser.innerHTML += createListElement(u, false, false);
+            
+            const allUsers = new Set([...activeUsers, ...offlineUsers]);
+            allUsers.forEach(u => { 
+                if (u !== username && u !== "Agente IA" && u.toLowerCase().includes(q)) {
+                    ulUser.innerHTML += createListElement(u, false, false, activeUsers.includes(u));
+                    chatSessions.filter(s => s.target === u).forEach(s => {
+                        ulUser.innerHTML += createSessionElement(s, false);
+                    });
+                }
             });
         }
 
-        function createListElement(target, isGroup, isAI) {
-            const isActive = currentChat === target;
+        function createListElement(target, isGroup, isAI, isOnline = true) {
+            const isActive = currentSessionId === null && currentChat === target;
             let avatar, color;
-            if (isAI) { avatar = '🤖'; color = 'bg-indigo-600'; }
-            else if (isGroup) { avatar = '👥'; color = 'bg-slate-600'; }
-            else { avatar = target.charAt(0).toUpperCase(); color = 'bg-emerald-600'; }
+            if (isAI) { 
+                avatar = '<svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>'; 
+                color = 'bg-indigo-600'; 
+            }
+            else if (isGroup) { 
+                avatar = '<svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>'; 
+                color = 'bg-slate-600'; 
+            }
+            else { 
+                avatar = target.charAt(0).toUpperCase(); 
+                color = isOnline ? 'bg-emerald-600' : 'bg-slate-700 opacity-60'; 
+            }
 
-            const unread = chatHistories[target]?.some(m => m._unread) ? '<span class="w-2 h-2 bg-indigo-500 rounded-full"></span>' : '';
+            const unread = (!currentSessionId && chatHistories[target]?.some(m => m._unread)) ? '<span class="w-2 h-2 bg-indigo-500 rounded-full"></span>' : '';
+            const statusIndicator = (!isGroup && !isAI) ? `<span class="w-2 h-2 rounded-full absolute bottom-0 right-0 border border-slate-900 ${isOnline ? 'bg-emerald-400' : 'bg-slate-500'}"></span>` : '';
+            
+            let addSessionBtn = '';
+            if (isAI || (!isGroup && isOnline)) {
+                addSessionBtn = `<button onclick="createSession('${target}'); event.stopPropagation();" class="text-slate-500 hover:text-indigo-400 p-1" title="Nuevo Chat"><svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg></button>`;
+            }
 
-            return `<li onclick="selectChat('${target}', ${isGroup})" id="target-${target}" class="sidebar-item px-3 py-2.5 cursor-pointer flex items-center gap-3 transition ${isActive ? 'active' : ''}">
-                    <div class="w-8 h-8 shrink-0 rounded-full ${color} flex items-center justify-center text-white text-xs font-bold">${avatar}</div>
-                    <span class="font-medium text-sm truncate flex-1">${target}</span>
-                    ${unread}
+            return `<li onclick="selectChat('${target}', ${isGroup})" id="target-${target}" class="sidebar-item px-3 py-2.5 cursor-pointer flex items-center gap-3 transition ${isActive ? 'active bg-slate-800' : 'hover:bg-slate-800/50'} border-b border-slate-800/30">
+                    <div class="relative w-8 h-8 shrink-0 rounded-full ${color} flex items-center justify-center text-white text-xs font-bold">
+                        ${avatar}
+                        ${statusIndicator}
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <span class="font-medium text-sm truncate block text-slate-200 ${!isOnline ? 'opacity-70' : ''}">${target}</span>
+                        <span class="text-[10px] truncate block ${isOnline ? 'text-emerald-400' : 'text-slate-500'}">${isGroup ? 'Grupo' : (isOnline ? 'En línea' : 'Desconectado')}</span>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        ${unread}
+                        ${addSessionBtn}
+                    </div>
                     </li>`;
         }
 
         function selectChat(target, isGroup) {
             currentChat = target;
+            currentSessionId = null;
             document.getElementById("current-chat-title").innerText = target;
             document.getElementById("current-chat-status").classList.add("hidden");
 
             const isAI = target === "Agente IA";
             document.getElementById("ai-config-btn").classList.toggle('hidden', !isAI);
+            document.getElementById("ai-hw-btn").classList.toggle('hidden', !isAI);
             document.getElementById("ai-memory-btn").classList.toggle('hidden', !isAI);
+            document.getElementById("header-divider").classList.toggle('hidden', !isAI);
             document.getElementById("ai-hints").classList.toggle('hidden', !isAI);
             document.getElementById("call-btn").classList.toggle('hidden', isGroup || target === 'Chat grupal' || isAI);
             
             // Update avatar
             const av = document.getElementById("current-chat-avatar");
-            if(isAI) { av.textContent = '🤖'; av.className = 'w-9 h-9 rounded-full bg-indigo-600 flex items-center justify-center text-sm text-white font-bold shrink-0'; }
-            else if(isGroup) { av.textContent = '👥'; av.className = 'w-9 h-9 rounded-full bg-slate-600 flex items-center justify-center text-sm text-white font-bold shrink-0'; }
+            const aiSVG = '<svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>';
+            const groupSVG = '<svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>';
+
+            if(isAI) { av.innerHTML = aiSVG; av.className = 'w-9 h-9 rounded-full bg-indigo-600 flex items-center justify-center shrink-0'; }
+            else if(isGroup) { av.innerHTML = groupSVG; av.className = 'w-9 h-9 rounded-full bg-slate-600 flex items-center justify-center shrink-0'; }
             else { av.textContent = target.charAt(0).toUpperCase(); av.className = 'w-9 h-9 rounded-full bg-emerald-600 flex items-center justify-center text-sm text-white font-bold shrink-0'; }
 
             if(window.innerWidth < 768) toggleSidebar();
@@ -470,7 +886,9 @@
         };
 
         function setPreset(key) {
-            document.getElementById('ai-prompt-input').value = PRESETS[key] || '';
+            if (!PRESETS[key]) return;
+            document.getElementById('ai-prompt-input').value = PRESETS[key];
+            saveAIPersona(); // Auto-guardar y aplicar inmediatamente
         }
 
         function showAIModal() { document.getElementById('ai-persona-modal').classList.remove('hidden'); }
@@ -501,12 +919,18 @@
                     if(comp.level === "aceptable") badgeClass = "bg-yellow-600/30 text-yellow-400";
                     if(comp.level === "critico") badgeClass = "bg-red-600/30 text-red-400";
 
-                    const downloadBadge = isDownloaded ? '<span class="bg-indigo-600/30 text-indigo-400 px-1.5 py-0.5 rounded text-[10px] font-bold ml-1">💾 Descargado</span>' : '';
+                    const downloadBadge = isDownloaded ? '<span class="bg-indigo-600/30 text-indigo-400 px-1.5 py-0.5 rounded text-[10px] font-bold ml-1">Descargado</span>' : '';
                     const btnText = isDownloaded ? 'Cargar' : 'Descargar';
                     
                     // We don't disable the button anymore. We let the user choose to break their PC.
                     // But we add a confirm warning for critical ones.
                     const clickAction = isCritical ? `if(confirm('ALERTA: ${comp.msg}\\n¿Estás seguro de que deseas forzar la carga?')) changeLLM('${m.name}')` : `changeLLM('${m.name}')`;
+                    
+                    const deleteBtn = isDownloaded ? `
+                        <button onclick="deleteLLM('${m.name}')" class="px-2 py-1.5 bg-red-500/20 text-red-400 hover:bg-red-600 hover:text-white rounded-lg transition" title="Eliminar modelo del disco">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                        </button>
+                    ` : '';
                     
                     list.innerHTML += `
                         <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-700/50 flex justify-between items-center ${isCritical ? 'opacity-70' : ''}">
@@ -518,9 +942,12 @@
                                     <span class="text-[10px] text-slate-500">Est. RAM/VRAM: ~${m.est_mem_gb} GB</span>
                                 </div>
                             </div>
-                            <button onclick="${clickAction}" class="px-3 py-1.5 ${isCritical ? 'bg-red-600/50 hover:bg-red-600' : 'bg-indigo-600 hover:bg-indigo-700'} text-white rounded-lg text-xs font-bold transition whitespace-nowrap shadow-lg">
-                                ${btnText}
-                            </button>
+                            <div class="flex items-center gap-1">
+                                ${deleteBtn}
+                                <button onclick="${clickAction}" class="px-3 py-1.5 ${isCritical ? 'bg-red-600/50 hover:bg-red-600' : 'bg-indigo-600 hover:bg-indigo-700'} text-white rounded-lg text-xs font-bold transition whitespace-nowrap shadow-lg">
+                                    ${btnText}
+                                </button>
+                            </div>
                         </div>
                     `;
                 });
@@ -534,13 +961,37 @@
 
         async function changeLLM(modelName) {
             document.getElementById('hardware-modal').classList.add('hidden');
-            document.getElementById('ai-status').className = "w-2 h-2 rounded-full bg-red-500";
-            alert(`Iniciando descarga/carga de ${modelName}. Revisa la terminal del servidor.`);
-            await fetch('/api/model', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ model_name: modelName })
-            });
+            // Status will update via WebSocket automatically
+            try {
+                await fetch('/api/model', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ model_name: modelName })
+                });
+            } catch(e) {
+                console.error("Error cambiando modelo:", e);
+                alert("Error de red al intentar cambiar de modelo.");
+            }
+        }
+
+        async function deleteLLM(modelName) {
+            if(!confirm(`¿Estás SEGURO de que deseas eliminar permanentemente el modelo '${modelName}' de tu disco duro?`)) return;
+            try {
+                const res = await fetch('/api/model', {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ model_name: modelName })
+                });
+                const data = await res.json();
+                if(res.ok) {
+                    showHardwareModal(); // Recargar lista
+                } else {
+                    alert("Error: " + data.detail);
+                }
+            } catch(e) {
+                console.error("Error eliminando modelo:", e);
+                alert("Error de red al intentar eliminar el modelo.");
+            }
         }
 
         function saveAIPersona() {
@@ -549,13 +1000,12 @@
             if(!prompt) return;
             wsChat.send(JSON.stringify({ type: "update_ai_prompt", system_prompt: prompt, user_prompt: userPrompt }));
             document.getElementById('ai-persona-modal').classList.add('hidden');
-            
-            const myMsg = { type: "chat", id: Date.now(), from_user: "Agente IA", to_target: username, is_group: false, message: "**[Rol actualizado]** He adoptado la nueva personalidad. ¡Pruébame!", timestamp: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) };
-            saveAndRenderMessage(myMsg);
         }
 
         function clearAIMemory() {
+            if(!confirm("¿Seguro que quieres borrar todo el historial con la IA?")) return;
             wsChat.send(JSON.stringify({ type: "clear_ai_memory" }));
+            chatHistories["Agente IA"] = [];
             const myMsg = { type: "chat", id: Date.now(), from_user: "Agente IA", to_target: username, is_group: false, message: "**[Memoria borrada]** He olvidado nuestra conversación anterior. Empecemos de nuevo.", timestamp: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) };
             saveAndRenderMessage(myMsg);
         }
@@ -580,20 +1030,57 @@
 
         function deleteMsgLocal(chatKey, id) {
             if(chatHistories[chatKey]) {
-                chatHistories[chatKey] = chatHistories[chatKey].filter(m => m.id !== id);
+                if (chatKey === "Agente IA") {
+                    // Truncar historial para la IA
+                    const idx = chatHistories[chatKey].findIndex(m => m.id === id);
+                    if (idx !== -1) {
+                        chatHistories[chatKey] = chatHistories[chatKey].slice(0, idx);
+                    }
+                } else {
+                    chatHistories[chatKey] = chatHistories[chatKey].filter(m => m.id !== id);
+                }
                 if(currentChat === chatKey) renderChatHistory();
             }
         }
 
         function requestDelete(id) {
+            if (currentChat === "Agente IA") {
+                if(!confirm("Al borrar este mensaje también se borrarán todas las respuestas posteriores para mantener la coherencia de la IA. ¿Continuar?")) return;
+            }
             wsChat.send(JSON.stringify({ type: "delete_message", id: id, to_target: currentChat }));
             deleteMsgLocal(currentChat, id);
+        }
+
+        function requestEdit(id, oldText) {
+            const newText = prompt("Editar mensaje:", oldText);
+            if (newText !== null && newText.trim() !== "" && newText !== oldText) {
+                if (currentChat === "Agente IA") {
+                    if(!confirm("Al editar este mensaje, la IA regenerará su respuesta y se borrarán los mensajes posteriores. ¿Continuar?")) return;
+                }
+                const payload = { type: "edit_message", id: id, new_text: newText, to_target: currentChat };
+                if (currentSessionId) payload.session_id = currentSessionId;
+                wsChat.send(JSON.stringify(payload));
+                editMsgLocal(currentSessionId || currentChat, id, newText);
+            }
+        }
+
+        function editMsgLocal(chatKey, id, newText) {
+            if(chatHistories[chatKey]) {
+                const idx = chatHistories[chatKey].findIndex(m => m.id === id);
+                if (idx !== -1) {
+                    chatHistories[chatKey][idx].message = newText;
+                    if (chatKey === "Agente IA") {
+                        chatHistories[chatKey] = chatHistories[chatKey].slice(0, idx + 1);
+                    }
+                    if(currentChat === chatKey) renderChatHistory();
+                }
+            }
         }
 
         function renderChatHistory() {
             const container = document.getElementById("messages-container");
             container.innerHTML = "";
-            (chatHistories[currentChat] || []).forEach(renderMessage);
+            (chatHistories[currentSessionId || currentChat] || []).forEach(renderMessage);
         }
 
         function renderMessage(data) {
@@ -611,36 +1098,119 @@
             else bubble = "bg-slate-800 text-gray-200 rounded-bl-none border border-slate-700";
             
             const ephClass = data.ephemeral ? "ephemeral" : "";
+
+            let overrideSender = data.from_user;
+            let displayMessage = data.message;
+            
+            // Extract dynamic persona name from LLM format (e.g. "Captain Red: " or "Z3R0 (escribió): ")
+            if (isAI) {
+                const match = displayMessage.match(/^([A-Za-z0-9 _-]+)(?:\s*\([^)]+\))?:\s*/);
+                if (match) {
+                    overrideSender = match[1].toUpperCase();
+                    // We keep the prefix in the message, renderMarkdown will format it nicely
+                } else {
+                    overrideSender = "AGENTE IA";
+                }
+            }
             
             // Use markdown rendering for AI messages, escapeHTML for regular
-            const messageContent = isAI ? renderMarkdown(data.message) : `<div class="text-sm leading-relaxed break-words">${escapeHTML(data.message)}</div>`;
-            let contentHtml = isAI ? `<div class="text-sm leading-relaxed break-words">${messageContent}</div>` : messageContent;
+            const messageContent = isAI ? renderMarkdown(displayMessage) : `<div class="text-sm leading-relaxed break-words">${escapeHTML(displayMessage)}</div>`;
+            let contentHtml = isAI ? `<div class="text-sm leading-relaxed break-words markdown-content">${messageContent}</div>` : messageContent;
             
             if (data.type === "file" && data.file_type) {
                 if (data.file_type.startsWith("image/")) {
                     contentHtml += `<img src="${data.file_data}" class="mt-2 max-w-full rounded-lg max-h-48 object-cover cursor-pointer" onclick="window.open(this.src)">`;
                 } else {
-                    contentHtml += `<a href="${data.file_data}" download="${data.file_name}" class="mt-2 block bg-black/20 p-2 rounded-lg text-xs underline">📎 ${escapeHTML(data.file_name)}</a>`;
+                    contentHtml += `<a href="${data.file_data}" download="${data.file_name}" class="mt-2 flex items-center gap-1 bg-black/20 p-2 rounded-lg text-xs hover:bg-black/40 transition">
+                        <svg class="w-4 h-4 shrink-0 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" /></svg>
+                        <span class="truncate underline">${escapeHTML(data.file_name)}</span>
+                    </a>`;
                 }
             } else if (data.type === "voice") {
                 contentHtml += `<audio controls src="${data.file_data}" class="mt-2 h-8 w-full max-w-[200px]"></audio>`;
             }
 
-            const delBtn = isMe && !data.is_history ? `<button onclick="requestDelete(${data.id})" class="text-[10px] opacity-0 group-hover:opacity-100 text-red-400 hover:text-red-200 ml-2 transition">✕</button>` : '';
-            const aiLabel = isAI ? `<span class="ai-badge text-[10px] font-black">AGENTE IA</span>` : '';
+            const canEditDelete = isMe || currentChat === "Agente IA";
+            
+            let delBtn = '', editBtn = '', replyBtn = '', reactBtn = '';
+            
+            // Reply Button
+            let snippet = data.message ? escapeHTML(data.message) : (data.file_type ? 'Archivo adjunto' : 'Mensaje de voz');
+            replyBtn = `<button onclick="setReplyTo(${data.id}, '${escapeHTML(data.from_user)}', \`${snippet.replace(/`/g, '')}\`)" class="opacity-0 group-hover:opacity-100 text-slate-400 hover:text-emerald-300 ml-2 transition" title="Responder"><svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" /></svg></button>`;
+
+            // React Button
+            if (data.id) {
+                reactBtn = `<div class="relative opacity-0 group-hover:opacity-100 ml-2 inline-block">
+                    <button onclick="toggleReactionMenu(${data.id})" class="text-slate-400 hover:text-yellow-300 transition" title="Reaccionar"><svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></button>
+                    <div id="react-menu-${data.id}" class="hidden absolute bottom-full mb-2 right-0 bg-slate-800 border border-slate-700 rounded-full flex gap-1 p-1 shadow-lg z-50">
+                        <button onclick="reactToMessage(${data.id}, 'like')" class="p-1.5 hover:bg-slate-700 rounded-full text-blue-400"><svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" /></svg></button>
+                        <button onclick="reactToMessage(${data.id}, 'heart')" class="p-1.5 hover:bg-slate-700 rounded-full text-red-400"><svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg></button>
+                        <button onclick="reactToMessage(${data.id}, 'laugh')" class="p-1.5 hover:bg-slate-700 rounded-full text-yellow-400"><svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></button>
+                        <button onclick="reactToMessage(${data.id}, 'sad')" class="p-1.5 hover:bg-slate-700 rounded-full text-blue-300"><svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></button>
+                    </div>
+                </div>`;
+            }
+
+            if (canEditDelete && data.id) {
+                editBtn = `<button onclick="requestEdit(${data.id}, \`${escapeHTML(data.message || '')}\`)" class="opacity-0 group-hover:opacity-100 text-slate-400 hover:text-indigo-300 ml-2 transition" title="Editar mensaje"><svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg></button>`;
+                delBtn = `<button onclick="requestDelete(${data.id})" class="opacity-0 group-hover:opacity-100 text-red-400 hover:text-red-200 ml-1 transition" title="Eliminar mensaje"><svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg></button>`;
+            }
+
+            // Reactions rendering
+            let reactionsHtml = '';
+            if (data.reactions && Object.keys(data.reactions).length > 0) {
+                const grouped = {};
+                for (let user in data.reactions) {
+                    const r = data.reactions[user];
+                    if (!grouped[r]) grouped[r] = [];
+                    grouped[r].push(user);
+                }
+                const icons = {
+                    like: '<svg class="w-3 h-3 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" /></svg>',
+                    heart: '<svg class="w-3 h-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>',
+                    laugh: '<svg class="w-3 h-3 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>',
+                    sad: '<svg class="w-3 h-3 text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>'
+                };
+                let pillsHtml = '';
+                for (let r in grouped) {
+                    pillsHtml += `<div class="bg-slate-800 border border-slate-700 rounded-full px-1.5 py-0.5 flex items-center gap-1 shadow-sm cursor-pointer hover:bg-slate-700" title="${grouped[r].join(', ')}" onclick="reactToMessage(${data.id}, '${r}')">
+                        ${icons[r]} <span class="text-[10px] text-slate-300">${grouped[r].length}</span>
+                    </div>`;
+                }
+                reactionsHtml = `<div class="flex gap-1 mt-1 ${isMe ? 'justify-end' : 'justify-start'}">${pillsHtml}</div>`;
+            }
+
+            let replyHtml = '';
+            if (data.reply_to_text || data.reply_to_file) {
+                const rUser = data.reply_to_user || 'Usuario';
+                const rText = data.reply_to_file ? 'Archivo adjunto' : data.reply_to_text;
+                replyHtml = `<div class="bg-black/20 border-l-2 border-indigo-400 pl-2 pr-2 py-1 mb-2 rounded-r text-[10px] text-slate-300 opacity-80 cursor-pointer hover:bg-black/30 transition" onclick="document.getElementById('msg-${data.reply_to}')?.scrollIntoView({behavior: 'smooth'})">
+                    <span class="font-bold text-indigo-300 block mb-0.5">${escapeHTML(rUser)}</span>
+                    <span class="truncate block max-w-xs">${escapeHTML(rText)}</span>
+                </div>`;
+            }
+
+            const aiLabel = isAI ? `<span class="text-[10px] font-black text-indigo-400 mb-0.5 ml-1 flex items-center gap-1"><svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg> ${overrideSender}</span>` : '';
 
             div.innerHTML = `
                 <div class="flex flex-col max-w-[90%] md:max-w-[75%] ${alignment}">
                     ${!isMe && data.is_group ? `<span class="text-[10px] font-bold text-slate-500 mb-0.5 ml-1">${data.from_user}</span>` : ''}
                     ${aiLabel}
-                    <div class="${bubble} ${ephClass} rounded-2xl px-4 py-3 flex flex-col group relative shadow-sm">
-                        ${contentHtml}
-                        <div class="text-[10px] opacity-50 mt-1 flex justify-end items-center gap-1">
-                            ${data.ephemeral ? '<span class="text-red-400">⏳</span>' : ''}
-                            ${data.timestamp || ''}
-                            ${isMe ? '<span class="text-indigo-300">✓✓</span>' : ''} 
-                            ${delBtn}
+                    <div class="relative">
+                        <div class="${bubble} ${ephClass} rounded-2xl px-4 py-3 flex flex-col group relative shadow-sm">
+                            ${replyHtml}
+                            ${contentHtml}
+                            <div class="text-[10px] opacity-50 mt-1 flex justify-end items-center gap-1">
+                                ${data.ephemeral ? '<span class="text-red-400"><svg class="w-3 h-3 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></span>' : ''}
+                                ${data.timestamp || ''}
+                                ${isMe ? '<span class="text-indigo-400"><svg class="w-3 h-3 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7M5 13l4 4M14 8l5-5" /></svg></span>' : ''} 
+                                ${replyBtn}
+                                ${reactBtn}
+                                ${editBtn}
+                                ${delBtn}
+                            </div>
                         </div>
+                        ${reactionsHtml}
                     </div>
                 </div>
             `;
@@ -668,6 +1238,9 @@
             if (!isAI) finalMessage = await encryptMessage(text, cryptoKey);
             
             const payload = { type: "chat", to_target: currentChat, message: finalMessage, ephemeral: isEphemeral };
+            if (currentSessionId) payload.session_id = currentSessionId;
+            if (replyingTo) payload.reply_to = replyingTo.id;
+            
             wsChat.send(JSON.stringify(payload));
             
             const myMsg = {
@@ -675,11 +1248,16 @@
                 is_group: activeGroups[currentChat] !== undefined, 
                 timestamp: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
             };
+            if (replyingTo) {
+                myMsg.reply_to_text = replyingTo.snippet;
+                myMsg.reply_to_user = replyingTo.user;
+            }
             saveAndRenderMessage(myMsg);
-            if (isEphemeral) setTimeout(() => deleteMsgLocal(getChatKey(myMsg), myMsg.id), 10000);
+            if (isEphemeral) setTimeout(() => deleteMsgLocal(currentSessionId || getChatKey(myMsg), myMsg.id), 10000);
 
             wsChat.send(JSON.stringify({ type: "stop_typing", to_target: currentChat }));
             input.value = "";
+            if (replyingTo) cancelReply();
         }
 
         // ===================== Files =====================
@@ -708,15 +1286,34 @@
 
             function processPayload(base64) {
                 const payload = { type: "file", to_target: currentChat, file_name: file.name, file_type: file.type, file_data: base64, ephemeral: isEphemeral };
+                if (currentSessionId) payload.session_id = currentSessionId;
+                if (replyingTo) payload.reply_to = replyingTo.id;
+                
                 wsChat.send(JSON.stringify(payload));
+                
                 const myMsg = { ...payload, id: Date.now(), from_user: username, is_group: activeGroups[currentChat] !== undefined, timestamp: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) };
+                if (replyingTo) {
+                    myMsg.reply_to_text = replyingTo.snippet;
+                    myMsg.reply_to_user = replyingTo.user;
+                }
                 saveAndRenderMessage(myMsg);
-                if (isEphemeral) setTimeout(() => deleteMsgLocal(getChatKey(myMsg), myMsg.id), 10000);
+                if (isEphemeral) setTimeout(() => deleteMsgLocal(currentSessionId || getChatKey(myMsg), myMsg.id), 10000);
+                if (replyingTo) cancelReply();
             }
 
-            if (file.type.startsWith("image/")) compressImage(file, processPayload);
-            else {
-                if (file.size > 5 * 1024 * 1024) return alert("Max 5MB");
+            if (file.type.startsWith("image/") && file.size < 5 * 1024 * 1024) {
+                compressImage(file, processPayload);
+            } else {
+                if (file.size > 5 * 1024 * 1024) {
+                    if (currentChat === "Agente IA" || activeGroups[currentChat]) {
+                        return alert("Archivos grandes no soportados para IA o Grupos. Límite 5MB.");
+                    }
+                    if (confirm(`El archivo pesa ${(file.size/1024/1024).toFixed(1)}MB. ¿Enviar directamente vía P2P (WebRTC DataChannel)?`)) {
+                        startP2PTransfer(file, currentChat);
+                    }
+                    input.value = "";
+                    return;
+                }
                 const reader = new FileReader();
                 reader.onload = e => processPayload(e.target.result);
                 reader.readAsDataURL(file);
@@ -724,14 +1321,143 @@
             input.value = ""; 
         }
 
+        // ===================== P2P WebRTC DataChannels =====================
+        let p2pConnections = {};
+        
+        async function startP2PTransfer(file, to_user) {
+            const pc = new RTCPeerConnection({ iceServers: [{ urls: "stun:stun.l.google.com:19302" }] });
+            p2pConnections[to_user] = pc;
+            
+            const dc = pc.createDataChannel("fileTransfer");
+            setupDataChannel(dc, to_user, file);
+            
+            pc.onicecandidate = e => {
+                if(e.candidate) wsChat.send(JSON.stringify({ type: "p2p_file_ice", to_user: to_user, data: e.candidate }));
+            };
+            
+            const offer = await pc.createOffer();
+            await pc.setLocalDescription(offer);
+            
+            wsChat.send(JSON.stringify({ 
+                type: "p2p_file_offer", 
+                to_user: to_user, 
+                data: offer,
+                file_metadata: { name: file.name, type: file.type, size: file.size }
+            }));
+            
+            alert(`Solicitud P2P enviada a ${to_user}. Esperando conexión...`);
+        }
+        
+        async function handleP2POffer(data) {
+            const from_user = data.from_user;
+            const meta = data.file_metadata;
+            
+            const pc = new RTCPeerConnection({ iceServers: [{ urls: "stun:stun.l.google.com:19302" }] });
+            p2pConnections[from_user] = pc;
+            
+            let receiveBuffer = [];
+            let receivedSize = 0;
+            
+            pc.ondatachannel = e => {
+                const dc = e.channel;
+                dc.binaryType = "arraybuffer";
+                dc.onmessage = ev => {
+                    if (typeof ev.data === "string" && ev.data === "EOF") {
+                        const blob = new Blob(receiveBuffer, { type: meta.type });
+                        const url = URL.createObjectURL(blob);
+                        
+                        const myMsg = { type: "file", file_type: meta.type, file_name: meta.name, file_data: url, id: Date.now(), from_user: from_user, to_target: username, timestamp: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) };
+                        saveAndRenderMessage(myMsg);
+                        
+                        if(Notification.permission === "granted") new Notification(`AirChat — ${from_user}`, { body: `Te ha enviado un archivo grande por P2P: ${meta.name}` });
+                        
+                        receiveBuffer = [];
+                        receivedSize = 0;
+                        dc.close();
+                    } else {
+                        receiveBuffer.push(ev.data);
+                        receivedSize += ev.data.byteLength;
+                        // Opcional: Actualizar barra de progreso aquí
+                    }
+                };
+            };
+            
+            pc.onicecandidate = e => {
+                if(e.candidate) wsChat.send(JSON.stringify({ type: "p2p_file_ice", to_user: from_user, data: e.candidate }));
+            };
+            
+            await pc.setRemoteDescription(new RTCSessionDescription(data.data));
+            const answer = await pc.createAnswer();
+            await pc.setLocalDescription(answer);
+            
+            wsChat.send(JSON.stringify({ type: "p2p_file_answer", to_user: from_user, data: answer }));
+        }
+        
+        async function handleP2PAnswer(data) {
+            const pc = p2pConnections[data.from_user];
+            if(pc) await pc.setRemoteDescription(new RTCSessionDescription(data.data));
+        }
+        
+        async function handleP2PIce(data) {
+            const pc = p2pConnections[data.from_user];
+            if(pc) await pc.addIceCandidate(new RTCIceCandidate(data.data));
+        }
+        
+        function setupDataChannel(dc, to_user, file) {
+            dc.binaryType = "arraybuffer";
+            dc.onopen = () => {
+                // Send file in 16KB chunks
+                const chunkSize = 16384;
+                let offset = 0;
+                
+                // Show local file immediately
+                const localUrl = URL.createObjectURL(file);
+                const myMsg = { type: "file", file_type: file.type, file_name: file.name, file_data: localUrl, id: Date.now(), from_user: username, to_target: to_user, timestamp: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) };
+                saveAndRenderMessage(myMsg);
+                
+                const sysMsg = { type: "chat", message: `*📡 Transferencia P2P iniciada (${(file.size/1024/1024).toFixed(1)}MB)*`, id: Date.now()+1, from_user: username, to_target: to_user, timestamp: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) };
+                saveAndRenderMessage(sysMsg);
+                
+                const reader = new FileReader();
+                reader.onload = e => {
+                    if (dc.readyState !== "open") return;
+                    dc.send(e.target.result);
+                    offset += chunkSize;
+                    
+                    if (offset < file.size) {
+                        if (dc.bufferedAmount > 10 * 1024 * 1024) {
+                            // Si el buffer es mayor a 10MB, pausar
+                            setTimeout(() => readSlice(offset), 50);
+                        } else {
+                            readSlice(offset);
+                        }
+                    } else {
+                        dc.send("EOF");
+                        setTimeout(() => dc.close(), 1000);
+                    }
+                };
+                
+                const readSlice = o => {
+                    const slice = file.slice(offset, o + chunkSize);
+                    reader.readAsArrayBuffer(slice);
+                };
+                
+                readSlice(0);
+            };
+        }
+
         // ===================== Voice Notes =====================
         let mediaRecorder, audioChunks = [];
         async function toggleVoiceRecord() {
             const btn = document.getElementById("mic-btn");
+            const micSVG = '<svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>';
+            const stopSVG = '<svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>';
+            
             if (mediaRecorder && mediaRecorder.state === "recording") {
                 mediaRecorder.stop();
-                btn.classList.remove("text-red-500", "animate-pulse");
-                btn.textContent = "🎤";
+                btn.classList.remove("text-red-500", "animate-pulse", "text-white");
+                btn.classList.add("text-slate-400", "hover:text-white");
+                btn.innerHTML = micSVG;
             } else {
                 try {
                     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -743,18 +1469,29 @@
                         reader.onload = e => {
                             const isEphemeral = document.getElementById("ephemeral-toggle").checked;
                             const payload = { type: "voice", to_target: currentChat, file_data: e.target.result, ephemeral: isEphemeral };
+                            if (currentSessionId) payload.session_id = currentSessionId;
+                            if (replyingTo) payload.reply_to = replyingTo.id;
+                            
                             wsChat.send(JSON.stringify(payload));
+                            
                             const myMsg = { ...payload, id: Date.now(), from_user: username, is_group: activeGroups[currentChat] !== undefined, timestamp: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) };
+                            if (replyingTo) {
+                                myMsg.reply_to_text = replyingTo.snippet;
+                                myMsg.reply_to_user = replyingTo.user;
+                            }
+                            
                             saveAndRenderMessage(myMsg);
-                            if (isEphemeral) setTimeout(() => deleteMsgLocal(getChatKey(myMsg), myMsg.id), 10000);
+                            if (isEphemeral) setTimeout(() => deleteMsgLocal(currentSessionId || getChatKey(myMsg), myMsg.id), 10000);
+                            if (replyingTo) cancelReply();
                         };
                         reader.readAsDataURL(audioBlob);
                         audioChunks = [];
                         stream.getTracks().forEach(t => t.stop());
                     };
                     mediaRecorder.start();
+                    btn.classList.remove("text-slate-400", "hover:text-white");
                     btn.classList.add("text-red-500", "animate-pulse");
-                    btn.textContent = "⏹";
+                    btn.innerHTML = stopSVG;
                 } catch(e) { alert("No se pudo acceder al micrófono"); }
             }
         }

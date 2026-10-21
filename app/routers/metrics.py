@@ -9,7 +9,7 @@ import psutil
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 
 from app.config import START_TIME, PROCESS
-from app.services.ai_engine import is_ready as ai_is_ready
+
 
 router = APIRouter()
 
@@ -60,6 +60,8 @@ async def websocket_metrics(websocket: WebSocket):
             uptime = int(now - START_TIME)
             uptime_str = f"{uptime // 3600:02d}:{(uptime % 3600) // 60:02d}:{uptime % 60:02d}"
 
+            from app.services.ai_engine import is_ready as ai_is_ready, get_current_model
+            
             await websocket.send_json({
                 "app_cpu": f"{app_cpu:.1f}%",
                 "app_ram": f"{app_ram:.1f} MB",
@@ -69,6 +71,7 @@ async def websocket_metrics(websocket: WebSocket):
                 "upload": _format_bytes(up),
                 "download": _format_bytes(down),
                 "ai_ready": ai_is_ready(),
+                "ai_model": get_current_model(),
             })
             await asyncio.sleep(1)
     except WebSocketDisconnect:
@@ -195,4 +198,24 @@ async def api_change_model(req: ModelChangeRequest):
     """Trigger the hot-swap of the LLM model."""
     change_model(req.model_name)
     return {"status": "loading", "message": f"Cambiando a {req.model_name}..."}
+
+@router.delete("/api/model")
+async def api_delete_model(req: ModelChangeRequest):
+    """Elimina un modelo de la caché de HuggingFace."""
+    import os
+    import shutil
+    
+    model_name = req.model_name
+    folder_name = "models--" + model_name.replace("/", "--")
+    cache_path = os.path.expanduser(f"~/.cache/huggingface/hub/{folder_name}")
+    
+    if os.path.exists(cache_path):
+        try:
+            shutil.rmtree(cache_path)
+            return {"status": "success", "message": f"Modelo {model_name} eliminado del disco."}
+        except Exception as e:
+            from fastapi import HTTPException
+            raise HTTPException(status_code=500, detail=str(e))
+    from fastapi import HTTPException
+    raise HTTPException(status_code=404, detail="El modelo no está en caché.")
 
